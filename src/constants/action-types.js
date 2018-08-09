@@ -1,0 +1,8 @@
+export const SET_CURRENT_IMAGE = "SET_CURRENT_IMAGE";
+export const ADD_NEW_BOX = "ADD_NEW_BOX";
+export const REMOVE_NEW_BOX = "REMOVE_NEW_BOX";
+export const SET_COMMENT_BOX_OPEN = "SET_COMMENT_BOX_OPEN";
+export const SET_COMMENT_BOX_CLOSE = "SET_COMMENT_BOX_CLOSE";
+export const ADD_MESSAGE = "ADD_MESSAGE";
+
+

@@ -1,0 +1,18 @@
+.comments {
+    position: absolute;
+}
+
+.dot {
+    width: 20px;
+    height: 20px;
+    background: magenta;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.message {
+    text-align: left;
+}
+
+.date {
+    text-align: right;
+}

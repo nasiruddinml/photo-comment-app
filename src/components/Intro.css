@@ -1,0 +1,11 @@
+.container {
+    max-width: 1020px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.Intro {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
