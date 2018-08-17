@@ -1,5 +1,5 @@
 import shortid from "shortid";
-
+import store from "./store";
 export const Images = generateImages(10);
 export const Comments = generateComments(Images);
 

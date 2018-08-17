@@ -2,34 +2,33 @@ import React from "react";
 import CommentForm from "./CommentForm";
 import "./Messages.css";
 import moment from "moment";
-
-import store from  "../store";
-import { setCommentBoxOpen, setCommentBoxClose, removeNewBox } from "../actions";
+import connect from "react-redux/es/connect/connect";
+import * as actions from "../actions";
 
 class Messages extends React.Component {
 
   _handleClose = (e) => {
     e.preventDefault();
-    const currentId = store.getState().currentImage.id;
-    store.dispatch(setCommentBoxClose(this.props.commentBox.id, currentId));
-    const Comments = store.getState().comments;
+    const currentId = this.props.currentImage.id;
+    this.props.setCommentBoxClose(this.props.commentBox.id, currentId);
+    const Comments = this.props.data.comments;
     const currentImage = Comments.find(el => el.id === currentId);
     const currentBox = currentImage.commentBoxes.find(el => el.id === this.props.commentBox.id);
     if (currentBox.messages.length < 1) {
-      store.dispatch(removeNewBox(this.props.commentBox.id, currentId));
+      this.props.removeNewBox(this.props.commentBox.id, currentId);
     }
   }
 
   _handleSwitchDot = (e) => {
     e.preventDefault();
-    const currentId = store.getState().currentImage.id;
-    const Comments = store.getState().comments;
+    const currentId = this.props.currentImage.id;
+    const Comments = this.props.data.comments;
     const currentImage = Comments.find(el => el.id === currentId);
     const currentBox = currentImage.commentBoxes.find(el => el.id === this.props.commentBox.id);
     if (currentBox.open) {
-      store.dispatch(setCommentBoxClose(this.props.commentBox.id, currentId));
+      this.props.setCommentBoxClose(this.props.commentBox.id, currentId);
     } else {
-      store.dispatch(setCommentBoxOpen(this.props.commentBox.id, currentId));
+      this.props.setCommentBoxOpen(this.props.commentBox.id, currentId);
     }
   }
 
@@ -68,6 +67,13 @@ class Messages extends React.Component {
   }
 }
 
-export default Messages;
+const mapStateToProps = ({ data, currentImage }) => {
+  return {
+    data,
+    currentImage
+  };
+};
+
+export default connect(mapStateToProps, actions)(Messages);
 
 

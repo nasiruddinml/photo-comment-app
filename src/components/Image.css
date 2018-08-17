@@ -1,8 +1,10 @@
 .Image {
     margin: 0 auto;
     width: 25%;
+    height: 250px;
     float: left;
     padding: 5px;
     font-size: 0;
     cursor: pointer;
+    overflow: hidden;
 }

@@ -1,13 +1,11 @@
 import { combineReducers } from "redux";
 
-import images from "./images";
-import comments from "./comments";
+import data from "./dataReducer";
 import commentOpen from "./commentOpen";
 import currentImage from "./currentImage";
 
 export default combineReducers({
-  images,
-  comments,
+  data,
   commentOpen,
   currentImage,
 });

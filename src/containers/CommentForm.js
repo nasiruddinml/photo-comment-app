@@ -1,6 +1,6 @@
 import React from "react";
-import store from "../store";
-import { addMessage } from "../actions";
+import connect from "react-redux/es/connect/connect";
+import * as actions from "../actions";
 
 class CommentForm extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class CommentForm extends React.Component {
 
   _handleSubmit = (e) => {
     e.preventDefault();
-    store.dispatch(addMessage(this.props.commentBox.id, this.state.inputValue, store.getState().currentImage.id));
+    this.props.addMessage(this.props.commentBox.id, this.state.inputValue, this.props.currentImage.id);
     this.setState({inputValue: ''})
   }
 
@@ -35,4 +35,10 @@ class CommentForm extends React.Component {
   }
 }
 
-export default CommentForm;
+const mapStateToProps = ({ data, currentImage }) => {
+  return {
+    data, currentImage
+  };
+};
+
+export default connect(mapStateToProps, actions)(CommentForm);

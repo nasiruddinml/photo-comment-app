@@ -1,12 +1,13 @@
 import React from 'react';
-import store from "../store";
 import Comments from "../components/Comments";
-import {addNewBox, removeNewBox, setCommentBoxClose} from "../actions";
+import connect from "react-redux/es/connect/connect";
+import * as actions from "../actions";
+import "./CommentCanvas.css";
 
 class CommentCanvas extends React.Component {
   constructor(props) {
     super(props);
-    this.currentImage = store.getState().images.find(el => el.id === this.props.match.params.id); // Pick current Image from url
+    this.currentImage = this.props.currentImage; // Pick current Image from url
     this.state = {
       x: '',
       y: '',
@@ -19,29 +20,32 @@ class CommentCanvas extends React.Component {
     e.preventDefault();
 
     // Check if there any open comment box present
-    const isCommentOpen = store.getState().commentOpen;
+    const isCommentOpen = this.props.commentOpen;
     if (isCommentOpen) {
-      const currentId = store.getState().currentImage.id;
-      const Comments = store.getState().comments;
+      const currentId = this.state.currentImage.id;
+      const Comments = this.props.comments;
       const currentImage = Comments.find(el => el.id === currentId);
       const currentBox = currentImage.commentBoxes.find(el => el.open === true);
-      store.dispatch(setCommentBoxClose(currentBox.id, currentId));
+      this.props.setCommentBoxClose(currentBox.id, currentId);
       if (currentBox.messages.length < 1) {
-        store.dispatch(removeNewBox(currentBox.id, currentId));
+        this.props.removeNewBox(currentBox.id, currentId);
       }
     } else {
-      store.dispatch(addNewBox(this.props.match.params.id, e.clientX, e.clientY));
+      this.props.addNewBox(this.props.currentImage.id, e.clientX, e.clientY);
     }
   };
 
-  componentWillMount() {
-    if (!this.currentImage) {
-      this.props.history.push('/');
+  async componentWillMount() {
+    await this.props.fetchData();
+    console.log(this.props);
+    if (!this.currentImage.id) {
+      console.log('I have been called');
+      this.props.history.push('/images');
     }
   }
 
   render() {
-    const comments = store.getState().comments.find(data => data.id === this.props.match.params.id);
+    const comments = this.props.data.comments.find(data => data.id === this.props.match.params.id);
     return (
       <div className="container-fluid">
         <div className="commentCanvas">
@@ -49,11 +53,18 @@ class CommentCanvas extends React.Component {
             <img src={this.currentImage.url} alt="" className="img-responsive" onMouseMove={this._onMouseMove} onClick={this._handleClick}/>
           ) : ''}
           <Comments commentBoxes={comments ? comments.commentBoxes : ''}/>
-          <button onClick={() => this.props.history.push('/')} className="btn, btn-default, btn-primary btn-lg">back</button>
         </div>
+        <button onClick={() => this.props.history.push('/images')} className="btn, btn-default, btn-primary btn-lg">back</button>
       </div>
     )
   }
 }
 
-export default CommentCanvas
+const mapStateToProps = ({ data, currentImage }) => {
+  return {
+    data,
+    currentImage
+  };
+};
+
+export default connect(mapStateToProps, actions)(CommentCanvas);

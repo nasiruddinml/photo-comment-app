@@ -4,5 +4,7 @@ export const REMOVE_NEW_BOX = "REMOVE_NEW_BOX";
 export const SET_COMMENT_BOX_OPEN = "SET_COMMENT_BOX_OPEN";
 export const SET_COMMENT_BOX_CLOSE = "SET_COMMENT_BOX_CLOSE";
 export const ADD_MESSAGE = "ADD_MESSAGE";
+export const FETCH_DATA = "FETCH_DATA";
+export const ADD_IMAGE = "ADD_IMAGE";
 
 
